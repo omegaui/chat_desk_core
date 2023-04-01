@@ -1,0 +1,23 @@
+name: Core Builder(MacOS)
+
+on: push
+
+jobs:
+  build-and-release-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+
+      - run: dart pub get
+
+      - name: Compiling Artifact
+        run: mkdir downloads
+
+      - run: dart compile exe --output=downloads/chat_desk_core.exe bin/chat_desk_core.dart
+
+      - name: Saving Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: macos-build
+          path: downloads
